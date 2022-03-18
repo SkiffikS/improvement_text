@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset = "UTF-8">
+    <title class="title">Редактор</title>
+
+    <link rel="icon" type = "image/png" href = "/favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="eel.js"></script>
+
+</head>
+<body>
+
+    <h3 class="subtitle">Введіть текст:</h3>
+    <div><textarea name="comment" class="input-text" id = "input"></textarea></div>
+
+    <div class="buttons">
+        <button class="btm-1" id = "btm-1" onclick="synonymizer_text()">Синонімайзер</button>
+        <button class="btm-2" id = "btm-2" onclick="clear()">Очистка</button>
+        <button class="btm-3" id = "btm-3" onclick="antiplagiat_text()">Не Плагіат</button>
+    </div>
+
+    <h3 class="subtitle">Заміна символів</h3>
+
+    <div class="replace">
+        <h2 class="text-1">Замінити усі </h2>
+        <input type="text" placeholder="Введіть символ" class="text-2" id = "start-s">
+        <h2 class="text-3">на </h2>
+        <input type="text" placeholder="Введіть символ" class="text-4" id = "end-s">
+        <button class="rep" onclick="replace_text()">Ок</button>
+    </div>
+    <div class="return">
+        <h3 class="subtitle">Получений текст</h3>
+        <div><textarea name="comment" class="output-text" id="output"></textarea></div>
+        <button class="copy" id = "copyText" onclick="copy()">Копіювати текст</button>
+    </div>
+
+    <script type = "text/javascript">
+
+        // all func
+        async function synonymizer_text(){
+            let text1 = document.getElementById("input").value;
+            let res1 = await eel.synonymizer(text1)();
+            document.getElementById("output").value = res1;
+        }
+
+        async function clear(){
+            let text2 = document.getElementById("input").value;
+            let res2 = await eel.clear_text(text2)();
+            document.getElementById("output").value = res2;
+        }
+
+        async function antiplagiat_text(){
+            let text3 = document.getElementById("input").value;
+            let res3 = await eel.ua_to_en(text3)();
+            document.getElementById("output").value = res3;
+        }
+
+        async function replace_text(){
+            let text4 = document.getElementById("input").value;
+            let start_sybmol = document.getElementById("start-s").value;
+            let end_sybmol = document.getElementById("end-s").value;
+            let res4 = await eel.replace_sybmols(text4, start_sybmol, end_sybmol)();
+            document.getElementById("output").value = res4;
+        }
+
+    </script>
+
+    <script>
+
+        // copy text
+        function copy() {
+            let textarea = document.getElementById("output");
+            textarea.select();
+            document.execCommand("copy");
+        }
+
+    </script>
+</body>
+</html>
